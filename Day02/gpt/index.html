@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">클릭해보세요</button>
+    <p id="msg"></p>
+
+    <script>
+      const btn = document.getElementById("btn");
+      const msg = document.getElementById("msg");
+
+      // 클릭했을 때 실행
+      btn.addEventListener("click", () => {
+        msg.textContent = "버튼을 클릭했네요!";
+      });
+
+      // 마우스가 움직일 때 실행
+      document.addEventListener("mousemove", (e) => {
+        msg.textContent = `마우스 좌표: ${e.clientX}, ${e.clientY}`;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+body {
+  background-image: url(images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.burger {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  border: 1px solid rgb(102, 102, 102);
+  color: rgb(102, 102, 102);
+  background-color: transparent;
+  border-radius: 99999px;
+}
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.hero__hiddenbox {
+  width: 30vw;
+  height: 100vh;
+  transform: translateX(-30vw);
+}
+.pikabu {
+  transform: translateX(0);
+}
+.hero__bigbox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero__bigbox__img {
+  position: absolute;
+  height: 100%;
+  transform: translateX(-520px);
+}
+.hero__bigbox__img > img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__bigbox__title {
+  position: absolute;
+  font-size: 50px;
+  text-align: center;
+}
+.hero__bigbox__title > h1 {
+  color: rgb(141, 137, 131);
+}

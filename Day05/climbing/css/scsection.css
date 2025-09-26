@@ -1,0 +1,47 @@
+.scsection {
+  height: 80vh;
+  margin-top: 20vh;
+  position: relative;
+}
+.scsection__rightpicture {
+  width: 30vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+.scsection__rightpicture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+}
+.scsection__box {
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  top: 23%;
+  right: 30vw;
+  background-color: #d3d3d3;
+}
+.scsection__box__box {
+  position: absolute;
+  top: 20%;
+  left: -2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.scsection__box h6 {
+  font-size: 70px;
+  margin-bottom: 40px;
+  color: rgb(94, 90, 86);
+}
+.scsection__box p {
+  font-size: 20px;
+  line-height: 1.5;
+  color: rgb(94, 90, 86);
+}

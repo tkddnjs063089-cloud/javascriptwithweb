@@ -1,0 +1,160 @@
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.7s;
+}
+.loadingbg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: darkslategray;
+}
+.background {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+}
+.background > img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.loadingtext {
+  font-size: 150px;
+}
+.burger {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  border: 1px solid gray;
+  color: gray;
+  background-color: transparent;
+  border-radius: 99999px;
+  transition: all 0.1s;
+  z-index: 5;
+}
+.burger:hover {
+  cursor: pointer;
+}
+.heroleftimg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.heroleftimg > img {
+  width: 50vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.x {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  border: 1px solid gray;
+  color: gray;
+  background-color: transparent;
+  border-radius: 99999px;
+  z-index: 2;
+}
+.x:hover {
+  cursor: pointer;
+}
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+}
+.hero__hiddenbox {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30vw;
+  height: 100vh;
+  transition: all 0.5s;
+  background-color: rgb(102, 102, 102);
+  transform: translateX(30vw);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 90;
+}
+.hero__hiddenbox__box {
+  width: 100%;
+  height: 100%;
+  padding: 200px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+.hero__hiddenbox__box__info {
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  color: rgb(224, 224, 222);
+  cursor: pointer;
+}
+.hero__hiddenbox__box__info:hover {
+  color: rgb(184, 178, 178);
+}
+.hero__bigbox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero__bigbox__img {
+  position: fixed;
+  height: 100%;
+  transform: translateX(-520px);
+  z-index: -2;
+}
+.hero__bigbox__img > img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__bigbox__title {
+  position: absolute;
+  font-size: 160px;
+  text-align: center;
+}
+.hero__bigbox__title > h1 {
+  color: rgb(94, 90, 86);
+}
+
+.swing {
+  transform: translateY(-100vh);
+}
+.pikabu {
+  transform: translateX(0);
+}
+.return {
+  transform: translateX(30vw);
+}
+.hide {
+  opacity: 0;
+}

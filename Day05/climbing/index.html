@@ -4,22 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../../reset.css" />
-    <link rel="stylesheet" href="hero.css" />
-    <link rel="stylesheet" href="scsection.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/hero.css" />
+    <link rel="stylesheet" href="css/scsection.css" />
+    <link rel="stylesheet" href="css/thsection.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <script src="index.js" defer></script>
+    <script src="js/index.js" defer></script>
   </head>
-  <body>
-    <section class="hero">
+  <body id="body">
+    <!-- 로딩화면 -->
+    <div id="loading" class="loading">
+      <h3 class="loadingtext">Loading...</h3>
+    </div>
+    <div id="loadingbg" class="loadingbg"></div>
+    <section id="hero" class="hero">
+      <!-- 뒷배경 -->
+      <div class="background"><img src="images/background.jpg" alt="" /></div>
+
+      <!-- 히어로(첫화면) -->
       <button id="burger" class="burger"><i class="ri-menu-line"></i></button>
-      <div class="hero__hiddenbox">
-        <button id="x" class="burger">
+      <picture class="heroleftimg"
+        ><img src="images/heroleftimg.avif" alt=""
+      /></picture>
+      <div id="hiddenbox" class="hero__hiddenbox">
+        <button id="x" class="x">
           <i class="ri-close-large-line"></i>
         </button>
+        <div class="hero__hiddenbox__box">
+          <button class="hero__hiddenbox__box__info">클라이밍이란?</button>
+          <button class="hero__hiddenbox__box__info">
+            우리나라 클라이밍 선수들
+          </button>
+          <button class="hero__hiddenbox__box__info">
+            클라이밍 기초 강의 유튜브
+          </button>
+          <button class="hero__hiddenbox__box__info">Instagram</button>
+        </div>
       </div>
       <div class="hero__bigbox">
         <div class="hero__bigbox__img">
@@ -30,5 +53,82 @@
         </div>
       </div>
     </section>
+    <section id="scsection" class="scsection">
+      <picture class="scsection__rightpicture"
+        ><img src="images/scsectionrightimg.jpg" alt=""
+      /></picture>
+      <div class="scsection__box">
+        <div class="scsection__box__box">
+          <h6 id="scsectionH6" class="scsection__box__box__h6">Concept</h6>
+          <p id="scsectionP" class="scsection__box__box__p">
+            하루하루 같은 일상을 반복하는 여러분의 하루하루가 지루하진
+            않으신가요?<br />클라이밍으로 도파민 터지는 하루를 경험해보세요!<br />
+            WCT Climbing JMT Place는 제 경험을 바탕으로 쉽고 재미있는<br />
+            암장을 소개 해드리는 사이트 입니다.<br />
+            운동과 동시에 행복을 안겨주는 클라이밍 같이 해보시지 않으시겠어요?
+          </p>
+        </div>
+      </div>
+    </section>
+    <section id="thsection" class="thsection">
+      <div id="thsectionLeft" class="thsection__leftimg">
+        <img id="thsectionLeftImg" src="images/peakerslogo.png" alt="" />
+      </div>
+      <div id="thsectionRight" class="thsection__rightimgs">
+        <h5 id="thsectionH5" class="thsection__rightimg__h5">
+          JMT Climbing Place List
+        </h5>
+        <div class="thsection__rightimg">
+          <img
+            id="peakers"
+            class="thsection__rightimg__img"
+            src="images/peakerslogo.png"
+          />
+          <img
+            id="allez"
+            class="thsection__rightimg__img"
+            src="images/allez.jpg"
+          />
+          <img
+            id="seoulforest"
+            class="thsection__rightimg__img"
+            src="images/seoulforest.png"
+          />
+          <img
+            id="theclisadang"
+            class="thsection__rightimg__img"
+            src="images/theclimb.jpg"
+          />
+          <img
+            id="offthewall"
+            class="thsection__rightimg__img"
+            src="images/offthewall.png"
+          />
+          <img
+            id="climbingpark"
+            class="thsection__rightimg__img"
+            src="images/climbingpark.png"
+          />
+          <img
+            id="thecliyangzae"
+            class="thsection__rightimg__img"
+            src="images/theclimbyangjae.jpg"
+          />
+          <img
+            id="catchstion"
+            class="thsection__rightimg__img"
+            src="images/catchstone.jpg"
+          />
+          <img
+            id="son"
+            class="thsection__rightimg__img"
+            src="images/sonsangwon.png"
+          />
+        </div>
+      </div>
+    </section>
+    <div>
+      <img src="" alt="" />
+    </div>
   </body>
 </html>

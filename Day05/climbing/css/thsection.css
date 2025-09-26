@@ -1,0 +1,79 @@
+.thsection {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+.thsection__leftimg {
+  width: 50%;
+  height: 100%;
+  /* background-image: url(peakers.jpg);
+  background-size: cover;
+  background-repeat: no-repeat; */
+  transition: all 0.2s;
+}
+/* .peakers {
+  background-image: url(peakers.jpg);
+}
+.seoulforest {
+  background-image: url(seoulforest.png);
+}
+.allez {
+  background-image: url(allez.jpg);
+}
+.theclisadang {
+  background-image: url(theclisadang.jpg);
+}
+.climbingpark {
+  background-image: url(climbingpark.png);
+}
+.thecliyangzae {
+  background-image: url(thecliyangzae.jpg);
+}
+.catchstion {
+  background-image: url(catchstone.png);
+}
+.offthewall {
+  background-image: url(offthewall.png);
+}
+.son {
+  background-image: url(son.png); */
+.thsection__leftimg > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thsection__rightimgs {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 80px 0 50px 0;
+}
+.thsection__rightimg__h5 {
+  width: 100%;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.thsection__rightimg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 65%;
+  height: 100%;
+  gap: 40px;
+}
+.thsection__rightimg__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s;
+}
+.thsection__rightimg__img:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}

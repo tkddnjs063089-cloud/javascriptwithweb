@@ -1,0 +1,75 @@
+.fosection {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.fosection__frontbox {
+  width: 500px;
+  height: 500px;
+  background-color: #d3d3d3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.fosection__frontbox__upbox {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.fosection__frontbox__upbox > h3 {
+  text-align: center;
+  font-size: 50px;
+}
+.fosection__frontbox__upbox > p {
+  text-align: center;
+}
+.fosection__frontbox__upbox > button {
+  width: 100px;
+  height: 30px;
+}
+
+.fosection__frontbox__downbox {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 40px;
+}
+.fosection__frontbox__downbox > h6 {
+  font-size: 20px;
+}
+.fosection__frontbox__downbox::before {
+  content: "";
+  width: 70%;
+  height: 1px;
+  background-color: #bebebe;
+}
+.fosection__background {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  position: absolute;
+  z-index: 0;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.fosection__background > img {
+  width: 100%;
+  height: 80vh;
+}
+@media screen and (max-width: 800px) {
+  .fosection__frontbox {
+    width: 90%;
+  }
+}

@@ -1,0 +1,96 @@
+.phoneheader {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-direction: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: white;
+  display: none;
+}
+.phoneburger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.6rem;
+  padding: 1rem;
+}
+.phonex {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.6rem;
+  padding: 1rem;
+  z-index: 10;
+}
+.phonelogo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.phonelogo > img {
+  width: 30%;
+  height: 100%;
+  object-fit: cover;
+}
+.phoneheader__right {
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 1.6rem;
+  gap: 1rem;
+  display: none;
+}
+.phonelefthiddenbox {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateX(-100vw);
+  transition: all 0.5s;
+}
+.boom {
+  transform: translateX(0);
+}
+.phonelefthiddenbox__UPBOX {
+  height: 58%;
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.phonelefthiddenbox__UPBOX__text {
+  display: flex;
+  justify-content: space-between;
+}
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: gray;
+}
+.phonelefthiddenbox__DOWNBOX {
+  height: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.displaynone {
+  display: none;
+}
+.displayblock {
+  display: block;
+}
+@media screen and (max-width: 768px) {
+  .phoneheader {
+    display: block;
+  }
+}

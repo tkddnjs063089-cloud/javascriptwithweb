@@ -1,0 +1,65 @@
+/* ul {
+  display: flex;
+  background-color: #f1f1f1;
+}
+li {
+  padding: 15px;
+  gap: 20px;
+  background-color: transparent;
+  transition: all 0.3s;
+}
+li:hover {
+  background-color: #e7e7e7;
+}
+p {
+  padding: 20px;
+  font-size: 30px;
+}
+div {
+  padding: 0 20px;
+}
+.background {
+  background-color: #cccccc;
+} */
+article > nav > ul {
+  display: flex;
+  justify-content: space-around;
+}
+article > nav > ul > li {
+  padding: 20px 0;
+}
+article > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 30px;
+  gap: 50px;
+}
+.button {
+  padding: 20px 30px;
+}
+div > h3 {
+  color: white;
+  font-size: 50px;
+}
+div > p {
+  color: white;
+}
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+.background {
+  background-color: #eeeeee;
+}

@@ -1,36 +1,30 @@
 /***** 기본 셋업 *****/
 const insideBackground = document.querySelector(".insidebackground");
-const background = document.querySelector(".background");
 const dino = document.querySelector("#dino");
 const dinoImg = dino.querySelector(".dinobox");
 const scoreText = document.querySelector("#score");
-
-const GROUND_Y = 458;
-const JUMP_TOP = 600;
+const ground = document.querySelector(".ground");
 
 let isJumping = false;
 let isDucking = false;
-let gravity = 5;
-let cactusSpeed = 5;
+let cactusSpeed = 1.5;
 let score = 0;
 let gameOver = false;
 let gameStarted = false;
-let gameStartTime = 0; // ✅ 게임 시작 시점 저장용
+let gameStartTime = null;
 
-/***** 걷기 애니메이션 *****/
+/***** 공룡 걷기 *****/
 const dinoFrames = ["img/right.png", "img/left.png"];
 let frameIdx = 0;
 let walkInterval = null;
-let walkMs = 500;
-
 function startWalk() {
-  if (walkInterval) clearInterval(walkInterval);
+  clearInterval(walkInterval);
   walkInterval = setInterval(() => {
     if (!gameOver && !isJumping && !isDucking) {
       frameIdx = (frameIdx + 1) % dinoFrames.length;
       dinoImg.src = dinoFrames[frameIdx];
     }
-  }, walkMs);
+  }, 400);
 }
 
 /***** 점수 *****/
@@ -39,7 +33,7 @@ function startScore() {
   scoreInterval = setInterval(() => {
     if (!gameOver && gameStarted) {
       score++;
-      scoreText.textContent = "점수: " + score + "점";
+      scoreText.textContent = `점수: ${score}점`;
     }
   }, 100);
 }
@@ -48,162 +42,184 @@ function startScore() {
 function jump() {
   if (!gameStarted || isJumping || gameOver) return;
   isJumping = true;
-  let bottom = parseInt(getComputedStyle(dino).bottom, 10);
 
-  const up = setInterval(() => {
-    if (bottom < JUMP_TOP) {
-      bottom += gravity;
-      dino.style.bottom = bottom + "px";
-    } else {
-      clearInterval(up);
-      const down = setInterval(() => {
-        if (bottom > GROUND_Y) {
-          bottom -= gravity;
-          dino.style.bottom = bottom + "px";
-        } else {
-          clearInterval(down);
-          isJumping = false;
-          dino.style.bottom = GROUND_Y + "px";
-        }
-      }, 10);
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const base = 25; // ground 기준
+  let bottom = base;
+
+  let velocity = isMobile ? 0.8 : 0.8;
+  const gravity = isMobile ? 0.04 : 0.04;
+  const maxHeight = isMobile ? 60 : 45;
+
+  const jumpLoop = setInterval(() => {
+    bottom += velocity;
+    velocity -= gravity;
+
+    if (bottom >= maxHeight) {
+      bottom = maxHeight;
+      velocity = -Math.abs(velocity);
     }
-  }, 10);
+
+    if (bottom <= base) {
+      bottom = base;
+      isJumping = false;
+      clearInterval(jumpLoop);
+    }
+
+    dino.style.bottom = `${bottom}%`;
+  }, 16);
 }
 
 /***** 숙이기 *****/
 function duckStart() {
   if (!gameStarted || isJumping || isDucking || gameOver) return;
   isDucking = true;
-  dinoImg.src = "img/duck.png"; // 숙이는 이미지
-  dino.style.bottom = GROUND_Y - 0 + "px";
+  dinoImg.src = "img/duck.png";
   dinoImg.style.height = "30px";
 }
-
 function duckEnd() {
   if (!gameStarted || !isDucking || gameOver) return;
   isDucking = false;
   dinoImg.src = "img/dino.png";
-  dino.style.bottom = GROUND_Y + "px";
-  dinoImg.style.height = "50px";
+  dinoImg.style.height = "100px";
 }
 
-/***** 키 이벤트 *****/
-document.addEventListener("keydown", (e) => {
+/***** 조작 *****/
+window.addEventListener("keydown", (e) => {
   if (!gameStarted) return;
+  if (e.key === "ArrowUp") jump();
+  if (e.key === "ArrowDown") duckStart();
+});
+window.addEventListener("keyup", (e) => {
+  if (!gameStarted) return;
+  if (e.key === "ArrowDown") duckEnd();
+});
 
-  if (e.key === "ArrowUp") {
-    jump();
-  }
-
-  if (e.key === "ArrowDown") {
-    duckStart();
+/***** 📱 모바일 터치 *****/
+let touchTimer = null;
+window.addEventListener("touchstart", () => {
+  if (!gameStarted || gameOver) return;
+  touchTimer = setTimeout(() => duckStart(), 300);
+});
+window.addEventListener("touchend", () => {
+  if (!gameStarted || gameOver) return;
+  if (touchTimer) {
+    clearTimeout(touchTimer);
+    touchTimer = null;
+    if (!isDucking) jump();
+    else duckEnd();
   }
 });
 
-document.addEventListener("keyup", (e) => {
-  if (!gameStarted) return;
-
-  if (e.key === "ArrowDown") {
-    duckEnd();
-  }
-});
-
-/***** 선인장 + 익룡 데이터 *****/
+/***** 장애물 (선인장 + 익룡) *****/
 const cactusOptions = [
   { src: "img/long cactus.png", w: 25, h: 70 },
   { src: "img/middle cactus.png", w: 30, h: 60 },
   { src: "img/short cactus.png", w: 25, h: 40 },
-  { src: "img/pterosaur.png", w: 70, h: 50 },
+  { src: "img/pterosaur.png", w: 50, h: 40 },
 ];
 
-/***** 장애물 생성 *****/
 function createCactus() {
   if (!gameStarted) return;
+
   const cactus = document.createElement("div");
   cactus.style.position = "absolute";
-  cactus.style.right = "-40px";
+  cactus.style.right = "-20%";
+  cactus.style.zIndex = "12";
 
-  // ✅ 게임 진행 시간 계산
-  const elapsedTime = (Date.now() - gameStartTime) / 1000;
-
-  // ✅ 10초 이전에는 익룡 제외
-  const availableCactus =
-    elapsedTime < 10
-      ? cactusOptions.filter((opt) => !opt.src.includes("pterosaur"))
-      : cactusOptions;
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const elapsed = (Date.now() - gameStartTime) / 1000;
+  const availableOptions =
+    elapsed >= 15
+      ? cactusOptions
+      : cactusOptions.filter((opt) => !opt.src.includes("pterosaur"));
 
   const opt =
-    availableCactus[Math.floor(Math.random() * availableCactus.length)];
-
+    availableOptions[Math.floor(Math.random() * availableOptions.length)];
   const img = document.createElement("img");
   img.src = opt.src;
-  img.style.width = opt.w + "px";
-  img.style.height = opt.h + "px";
-  img.style.display = "block";
-  cactus.appendChild(img);
-  insideBackground.appendChild(cactus);
 
-  // ✅ 익룡은 공중에 띄우기
+  // 모바일 크기 축소
+  const scale = isMobile ? 1 : 1;
+  img.style.width = opt.w * scale + "px";
+  img.style.height = opt.h * scale + "px";
+  cactus.appendChild(img);
+
   if (opt.src.includes("pterosaur")) {
-    const flyHeight = GROUND_Y + 50 + Math.random() * 0; // 랜덤 높이
-    cactus.style.bottom = flyHeight + "px";
+    const flyHeight = isMobile
+      ? 55 + Math.random() * 5
+      : 40 + Math.random() * 2;
+    cactus.style.bottom = flyHeight + "%";
   } else {
-    cactus.style.bottom = GROUND_Y + "px";
+    cactus.style.bottom = "25%";
   }
 
-  let right = 40;
+  insideBackground.appendChild(cactus);
+
+  let rightPercent = -5;
   const move = setInterval(() => {
-    if (gameOver || !gameStarted) {
+    if (!gameStarted || gameOver) {
       clearInterval(move);
       cactus.remove();
       return;
     }
 
-    right += cactusSpeed * 0.6;
-    cactus.style.right = right + "px";
+    rightPercent += cactusSpeed;
+    cactus.style.right = `${rightPercent}%`;
 
-    if (right > background.offsetWidth + 100) {
-      clearInterval(move);
+    // 🎯 좀 더 일찍 삭제 (잔상 방지)
+    if (rightPercent > 120) {
       cactus.remove();
+      clearInterval(move);
       return;
     }
 
+    // 충돌 감지 — 여유 거리 추가
     const dinoRect = dino.getBoundingClientRect();
     const cactusRect = cactus.getBoundingClientRect();
-    const isPterosaur = opt.src.includes("pterosaur");
 
-    // ✅ 충돌 판정
-    let hit =
-      dinoRect.right > cactusRect.left &&
-      dinoRect.left < cactusRect.right &&
-      dinoRect.bottom > cactusRect.top &&
-      dinoRect.top < cactusRect.bottom;
+    const margin = 5; // ← 충돌 여유 공간
+    const isCollision =
+      dinoRect.left + margin < cactusRect.right - margin &&
+      dinoRect.right - margin > cactusRect.left + margin &&
+      dinoRect.top + margin < cactusRect.bottom - margin &&
+      dinoRect.bottom - margin > cactusRect.top + margin;
 
-    // ✅ 익룡은 조금 여유 있게 (숙이기 피하기 가능)
-    if (isPterosaur) {
-      hit =
-        dinoRect.right > cactusRect.left &&
-        dinoRect.left < cactusRect.right &&
-        dinoRect.top < cactusRect.bottom - 20;
-    }
-
-    if (hit) {
+    if (isCollision) {
       endGame();
       clearInterval(move);
     }
-  }, 10);
+  }, 16);
 }
 
-/***** 선인장 등장 루프 *****/
+/***** 루프 *****/
 function spawnLoop() {
   if (!gameStarted || gameOver) return;
-  const minDelay = 1800;
-  const maxDelay = 3500;
-  const delay = Math.max(minDelay, maxDelay - (cactusSpeed - 0.2) * 90);
-  setTimeout(() => {
-    createCactus();
-    spawnLoop();
-  }, delay);
+  createCactus();
+  const delay = 1800 + Math.random() * 1500;
+  setTimeout(spawnLoop, delay);
+}
+
+/***** 바닥 움직임 *****/
+let ground1 = ground;
+let ground2 = ground.cloneNode(true);
+ground2.classList.add("ground-clone");
+ground.parentNode.appendChild(ground2);
+let groundX1 = 0;
+let groundX2 = 99.8;
+
+function moveGround() {
+  if (!gameStarted || gameOver) return;
+  groundX1 -= cactusSpeed / 2;
+  groundX2 -= cactusSpeed / 2;
+
+  if (groundX1 <= -99.8) groundX1 = 99.8;
+  if (groundX2 <= -99.8) groundX2 = 99.8;
+
+  ground1.style.transform = `translateX(${groundX1}%)`;
+  ground2.style.transform = `translateX(${groundX2}%)`;
+
+  requestAnimationFrame(moveGround);
 }
 
 /***** 속도 증가 *****/
@@ -213,33 +229,8 @@ function increaseCactusSpeed() {
       clearInterval(timer);
       return;
     }
-    if (cactusSpeed < 8) {
-      cactusSpeed += 0.1;
-    } else {
-      clearInterval(timer);
-    }
-  }, 500);
-}
-
-/***** 바닥 무한 루프 *****/
-let groundX1 = 0;
-let groundX2 = 0;
-let groundWidth = 0;
-let ground1, ground2;
-
-function moveGround() {
-  if (!gameStarted || gameOver) return;
-
-  groundX1 -= cactusSpeed * 0.6;
-  groundX2 -= cactusSpeed * 0.6;
-
-  ground1.style.left = groundX1 + "px";
-  ground2.style.left = groundX2 + "px";
-
-  if (groundX1 <= -groundWidth) groundX1 = groundX2 + groundWidth;
-  if (groundX2 <= -groundWidth) groundX2 = groundX1 + groundWidth;
-
-  requestAnimationFrame(moveGround);
+    if (cactusSpeed < 5) cactusSpeed += 0.01;
+  }, 1500);
 }
 
 /***** 게임오버 *****/
@@ -255,6 +246,12 @@ function endGame() {
   banner.textContent = "💥 GAME OVER 💥";
   document.body.appendChild(banner);
 
+  const player = prompt("닉네임을 입력하세요!");
+  if (player) {
+    saveScore(player, score);
+    renderRanking();
+  }
+
   const restartBtn = document.createElement("button");
   restartBtn.id = "restart-btn";
   restartBtn.style.position = "absolute";
@@ -266,26 +263,18 @@ function endGame() {
   restartBtn.style.backgroundColor = "transparent";
   document.body.appendChild(restartBtn);
 
-  const restartGame = document.createElement("img");
-  restartGame.src = "img/restartgame.png";
-  restartGame.style.width = "25%";
-  restartBtn.appendChild(restartGame);
+  const restartImg = document.createElement("img");
+  restartImg.src = "img/restartgame.png";
+  restartImg.style.width = "25%";
+  restartBtn.appendChild(restartImg);
 
   restartBtn.addEventListener("click", () => {
     resetGame();
     startGame();
   });
-
-  setTimeout(() => {
-    const name = prompt("이름을 입력하세요 (랭킹 등록)");
-    if (name) {
-      saveScore(name, score);
-      renderRanking();
-    }
-  }, 400);
 }
 
-/***** 랭킹 관리 *****/
+/***** 랭킹 *****/
 function saveScore(name, score) {
   const list = JSON.parse(localStorage.getItem("dinoRanking") || "[]");
   list.push({ name, score });
@@ -306,16 +295,16 @@ function renderRanking() {
   box.innerHTML = html;
 }
 
-/***** 게임 초기화 & 시작 *****/
+/***** 초기화 & 시작 *****/
 function resetGame() {
   gameOver = false;
   gameStarted = false;
   score = 0;
-  cactusSpeed = 5;
+  cactusSpeed = 0.3;
   scoreText.textContent = "점수 : 0";
 
   document.querySelectorAll(".insidebackground > div").forEach((el) => {
-    if (!el.classList.contains("dino") && !el.classList.contains("ground")) {
+    if (!el.classList.contains("dino") && !el.classList.contains("score")) {
       el.remove();
     }
   });
@@ -327,42 +316,73 @@ function resetGame() {
 
 function startGame() {
   gameStarted = true;
-  gameStartTime = Date.now(); // ✅ 게임 시작 시점 기록
+  gameStartTime = Date.now();
   startWalk();
   startScore();
   spawnLoop();
   increaseCactusSpeed();
-  renderRanking();
   moveGround();
+  renderRanking();
+  adjustDinoSize();
 }
 
-/***** 처음 진입 시 *****/
+/***** 공룡 크기 (모바일 절반) *****/
+function adjustDinoSize() {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const scale = isMobile ? 2 : 2;
+  dinoImg.style.width = 60 * scale + "px";
+  dinoImg.style.height = 60 * scale + "px";
+}
+
+/***** 시작 *****/
 document.addEventListener("DOMContentLoaded", () => {
   renderRanking();
-
-  ground1 = document.querySelector(".ground");
-  ground2 = ground1.cloneNode(true);
-  insideBackground.appendChild(ground2);
-
-  groundWidth = ground1.offsetWidth;
-  groundX1 = 0;
-  groundX2 = groundWidth;
-  ground1.style.left = groundX1 + "px";
-  ground2.style.left = groundX2 + "px";
+  adjustDinoSize();
 
   const startScreen = document.getElementById("start-screen");
   const startBtn = document.getElementById("start-btn");
-
   startBtn.addEventListener("click", () => {
     startScreen.style.display = "none";
     resetGame();
     startGame();
   });
 
-  // ✅ 포커스 유지
-  setInterval(() => {
-    if (document.activeElement !== document.body) {
-      document.body.focus();
+  function updateControlsText() {
+    const controlsBox = document.getElementById("controls");
+    if (!controlsBox) return;
+    const isMobile = window.matchMedia("(max-width: 1400px)").matches;
+    if (isMobile) {
+      controlsBox.innerHTML = `
+        <strong>📱 조작법</strong><br><br>
+        화면 터치: 점프<br>
+        꾹 누르기: 숙이기
+      `;
+    } else {
+      controlsBox.innerHTML = `
+        <strong>⌨️ 조작법</strong><br><br>
+        ⬆️ 점프<br>
+        ⬇️ 숙이기
+      `;
     }
-  }, 500);
+  }
+  updateControlsText();
+  window.addEventListener("resize", () => {
+    updateControlsText();
+    adjustDinoSize();
+  });
 });
+
+// 🌥 배경 무한 스크롤
+(function smoothParallax() {
+  const bg = document.querySelector(".background");
+  if (!bg) return;
+  let x = 0;
+  const SPEED = -0.2;
+  function tick() {
+    x -= SPEED;
+    if (x <= -100) x += 100;
+    bg.style.backgroundPosition = `${x}% 0%`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();

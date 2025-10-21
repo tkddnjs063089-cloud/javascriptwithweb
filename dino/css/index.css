@@ -1,141 +1,139 @@
+/* 기본 배경 레이아웃 */
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
 .hero {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  position: relative;
-}
-.backgroundimg {
-  position: absolute;
-  top: 0;
-  left: 208px;
-  width: 70vw;
-  height: 50vh;
-  background-image: url(background.png);
-  background-repeat: repeat-x;
-  background-size: cover;
-  animation: moveBg 60s linear infinite; /* ✅ 60초에 한 번 반복 */
-}
-
-/* 배경이 오른쪽→왼쪽으로 천천히 이동 */
-@keyframes moveBg {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: -100vw;
-  }
-}
-
-/* 🌟 시작 버튼 이미지 조정 */
-#start-btn img {
-  width: 30%; /* 절반 크기 */
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-/* 🌟 시작화면 중앙 정렬 */
-.start-screen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 30;
-}
-
-/* 🌟 버튼 기본 스타일 */
-#start-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-#start-btn:hover img {
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
-}
-
-.background {
-  width: 70%;
-  height: 100%;
-  margin: 0 auto;
   position: relative;
   overflow: hidden;
 }
-.insidebackground {
-  width: 80%;
+
+.background {
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
+  position: relative;
+  background-repeat: repeat-x; /* ← 중요 */
+  background-position: 0 0; /* 시작 위치 */
 }
-.dino {
-  position: absolute;
-  bottom: 458px;
-  left: 15%;
-}
-.dinobox {
-  width: 50px;
-  height: 50px;
-  transition: bottom 0.5s;
-}
-.dino > img {
-  width: 50px;
-  height: 50px;
-}
-.cactus {
-  position: absolute;
-  bottom: 50%;
-  right: -30px;
+.background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url("background.png"); /* 이미지 경로 */
+  background-size: cover; /* 화면 전체 채우기 */
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
 
-.cactusbox {
-  width: 30px;
-  height: 50px;
-} /* 🌍 바닥 움직임 애니메이션 */
-
-.ground {
+.insidebackground {
   position: absolute;
-  bottom: 147px;
-  left: 0;
-  width: 200%; /* 바닥이 화면보다 넓게 */
-  height: 312px;
-  z-index: 10;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
+
+/* 점수 표시 */
 .score {
   position: absolute;
-  top: 20px; /* 화면 위쪽 여백 */
-  right: 30px; /* 화면 오른쪽 여백 */
-  font-size: 24px;
+  top: 5%;
+  left: 5%;
+  font-size: 2vw;
   font-weight: bold;
-  color: black; /* 점수 색상 */
-}
-/* 게임오버 텍스트 */
-.gameover-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 48px;
-  font-weight: bold;
-  color: red;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px 40px;
-  border-radius: 10px;
-  text-align: center;
-  z-index: 30;
+  color: #222;
+  z-index: 50;
 }
 
-/* 랭킹 박스 */
-.ranking {
+/* 공룡 */
+.dino {
   position: absolute;
-  bottom: 20px;
+  bottom: 25%; /* ground 위에 정확히 놓임 */
+  left: 15%;
+  z-index: 20;
+}
+
+.dinobox {
+  width: 60px;
+  height: 60px;
+}
+
+/* 땅 */
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 25%;
+  z-index: 10;
+}
+
+/* 시작화면 */
+.start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.start-screen img {
+  width: 30%;
+  cursor: pointer;
+}
+
+/* Game Over 텍스트 */
+.gameover-text {
+  position: absolute;
+  top: 40%;
   left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 10px;
-  padding: 10px 20px;
+  transform: translate(-50%, -50%);
+  font-size: 3vw;
+  font-weight: bold;
+  color: #ff3333;
+  z-index: 200;
   text-align: center;
-  font-size: 16px;
-  color: black;
-  width: 250px;
+}
+
+/* 반응형 안내 */
+.info-box {
+  position: absolute;
+  right: 3%;
+  top: 5%;
+  color: #333;
+  font-size: 1.3vw;
+  font-weight: 500;
+  text-align: right;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 세로모드 안내 */
+@media screen and (orientation: portrait) {
+  .hero {
+    display: none;
+  }
+
+  body::before {
+    content: "📲 핸드폰을 가로모드로 바꿔주세요!";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 6vw;
+    font-weight: bold;
+    color: white;
+    background: rgb(131, 131, 131);
+    text-align: center;
+  }
 }

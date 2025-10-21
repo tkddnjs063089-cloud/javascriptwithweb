@@ -3,23 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>DINO GAME</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/index.css" />
     <script src="js/index.js" defer></script>
   </head>
   <body tabindex="0" autofocus>
     <section class="hero">
-      <picture id="background" class="backgroundimg"></picture>
       <div id="background" class="background">
+        <picture id="background" class="backgroundimg"></picture>
         <div id="insidebackground" class="insidebackground">
+          <div id="score" class="score">점수 : 0</div>
           <div id="dino" class="dino">
             <img class="dinobox" src="img/dino.png" alt="" />
           </div>
           <img class="ground" src="img/ground.png" alt="" />
         </div>
-        <div id="score" class="score">점수 : 0</div>
-        <div id="ranking" class="ranking"></div>
+        <div class="info-box">
+          <div id="ranking" class="ranking"></div>
+          <div id="controls" class="controls">
+            <strong>⌨️ 조작법</strong><br /><br />
+            ⬆️ 점프<br />
+            ⬇️ 숙이기<br />
+          </div>
+        </div>
       </div>
 
       <!-- 🌟 추가된 시작화면 -->
